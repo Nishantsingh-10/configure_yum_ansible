@@ -1,0 +1,27 @@
+- hosts: all
+  tasks:
+  - name: creating directory for mounting dvd
+    file:
+        path: "/dvd1"
+        state: directory
+
+  - name: mounting the directory
+    mount:
+        path: "/dvd1"
+        src: "/dev/cdrom"
+        fstype: iso9660
+        state: mounted
+
+  - name: configuring yum for AppStream
+    yum_repository:
+       name: "mydvd1"
+       baseurl: "/dvd1/AppStream"
+       description: "this is for AppStream"
+       gpgcheck: no
+
+  - name: configuring yum for BaseOS
+    yum_repository:
+       name: "mydvd2"
+       baseurl: "/dvd1/BaseOS"
+       description: "this is for BaseOS"
+       gpgcheck: no
